@@ -17,6 +17,10 @@ class Priority(BaseModel):
 class Category(BaseModel):
     name = models.CharField(max_length=50, unique=True)
 
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"           
+
     def __str__(self):    
         return self.name
 
