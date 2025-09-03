@@ -32,17 +32,17 @@ class Task(BaseModel):
     ]
 
     title = models.CharField(max_length=100 )
-    description = models.CharField(max_length=250, null=True)
+    description = models.CharField(max_length=250, null=True, blank=True)
     deadline = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default="Pending")
     priority = models.ForeignKey(Priority, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks")
-    category = models.ForeignKey(Category, null=True, blank=True, related_name="tasks")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True, related_name="tasks")
 
     def __str__(self):
         return self.title
     
 class Note(BaseModel):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='note')
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='notes')
     content = models.TextField()
     def __str__(self):
         return self.task.title
@@ -55,7 +55,7 @@ class SubTask(BaseModel):
     ]
 
 
-    parent_task = models.ForeignKey(Task, models.CASCADE, related_name="subtasks")
+    parent_task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="subtasks")
     title = models.CharField(max_length=100)
     status = models.CharField(
         max_length=50,
