@@ -36,7 +36,7 @@ class Task(BaseModel):
     ]
 
     title = models.CharField(max_length=100 )
-    description = models.CharField(max_length=250, null=True, blank=True)
+    description = models.TextField(max_length=10000, null=True, blank=True)
     deadline = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=25, choices=STATUS_CHOICES, default="Pending")
     priority = models.ForeignKey(Priority, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks")
