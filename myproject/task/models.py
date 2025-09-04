@@ -11,6 +11,10 @@ class Priority(BaseModel):
     name = models.CharField(max_length=250)
     level = models.PositiveIntegerField(default=1)
 
+    class Meta:
+        verbose_name = "Priority"
+        verbose_name_plural = "Priorities"  
+
     def __str__(self):
         return f"{self.name} (Level {self.level})"
 
@@ -45,7 +49,7 @@ class Note(BaseModel):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='notes')
     content = models.TextField()
     def __str__(self):
-        return self.task.title
+        return f"{self.task.title} & {self.content}"
 
 class SubTask(BaseModel):
     STATUS_CHOICES = [
