@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Priorities{% endblock %}
+{% block content %}
+  <h2>Priorities</h2>
+  <p>                    <a href="{% url 'priority-create' %}" class="btn btn-primary">Add Priority</a>
+                </div>
+                <div class="card-body">
+                    <form method="get" class="mb-3">
+                        <input type="text" placeholder="Search ..." class="form-control" name="q" />
+                    </form>
+                    <table id="datatablesSimple"></p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'name' %}-{% endif %}name" class="text-dark">
+            Name
+            {% if request.GET.order_by == 'name' %}
+              <i class="fas fa-sort-alpha-down"></i>
+            {% elif request.GET.order_by == '-name' %}
+              <i class="fas fa-sort-alpha-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'level' %}-{% endif %}level" class="text-dark">
+            Level
+            {% if request.GET.order_by == 'level' %}
+              <i class="fas fa-sort-numeric-down"></i>
+            {% elif request.GET.order_by == '-level' %}
+              <i class="fas fa-sort-numeric-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for priority in priorities %}
+        <tr>
+          <td>{{ priority.name }}</td>
+          <td>{{ priority.level }}</td>
+          <td>
+            <a class="btn btn-sm btn-secondary" href="{% url 'priority-update' priority.pk %}">Edit</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'priority-delete' priority.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3">No priorities found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

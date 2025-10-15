@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Notes{% endblock %}
+{% block content %}
+  <h2>Notes</h2>
+  <p>                    <a href="{% url 'note-create' %}" class="btn btn-primary">Add Note</a>
+                </div>
+                <div class="card-body">
+                    <form method="get" class="mb-3">
+                        <input type="text" placeholder="Search ..." class="form-control" name="q" />
+                    </form>
+                    <table id="datatablesSimple"></p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'task' %}-{% endif %}task" class="text-dark">
+            Task
+            {% if request.GET.order_by == 'task' %}
+              <i class="fas fa-sort-alpha-down"></i>
+            {% elif request.GET.order_by == '-task' %}
+              <i class="fas fa-sort-alpha-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>Content</th>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'created_at' %}-{% endif %}created_at" class="text-dark">
+            Created
+            {% if request.GET.order_by == 'created_at' %}
+              <i class="fas fa-sort-numeric-down"></i>
+            {% elif request.GET.order_by == '-created_at' %}
+              <i class="fas fa-sort-numeric-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for note in notes %}
+        <tr>
+          <td>{{ note.task.title }}</td>
+          <td>{{ note.content }}</td>
+          <td>
+            <a class="btn btn-sm btn-secondary" href="{% url 'note-update' note.pk %}">Edit</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'note-delete' note.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3">No notes found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

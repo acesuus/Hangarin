@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Tasks{% endblock %}
+{% block content %}
+  <h2>Tasks</h2>
+  <p>                    <a href="{% url 'task-create' %}" class="btn btn-primary">Add Task</a>
+                </div>
+                <div class="card-body">
+                    <form method="get" class="mb-3">
+                        <input type="text" placeholder="Search ..." class="form-control" name="q" />
+                    </form>
+                    <table id="datatablesSimple"></p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'title' %}-{% endif %}title" class="text-dark">
+            Title
+            {% if request.GET.order_by == 'title' %}
+              <i class="fas fa-sort-alpha-down"></i>
+            {% elif request.GET.order_by == '-title' %}
+              <i class="fas fa-sort-alpha-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'status' %}-{% endif %}status" class="text-dark">
+            Status
+            {% if request.GET.order_by == 'status' %}
+              <i class="fas fa-sort-alpha-down"></i>
+            {% elif request.GET.order_by == '-status' %}
+              <i class="fas fa-sort-alpha-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'priority' %}-{% endif %}priority" class="text-dark">
+            Priority
+            {% if request.GET.order_by == 'priority' %}
+              <i class="fas fa-sort-numeric-down"></i>
+            {% elif request.GET.order_by == '-priority' %}
+              <i class="fas fa-sort-numeric-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td>{{ task.title }}</td>
+          <td>{{ task.status }}</td>
+          <td>{{ task.priority }}</td>
+          <td>{{ task.category }}</td>
+          <td>
+            <a class="btn btn-sm btn-secondary" href="{% url 'task-update' task.pk %}">Edit</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'task-delete' task.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">No tasks found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

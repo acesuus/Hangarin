@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}SubTasks{% endblock %}
+{% block content %}
+  <h2>SubTasks</h2>
+  <p><a class="btn btn-primary" href="{% url 'subtask-create' %}">Create SubTask</a></p>
+  <form method="get" class="mb-3">
+    <input type="text" placeholder="Search ..." class="form-control" name="q" />
+  </form>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'title' %}-{% endif %}title" class="text-dark">
+            Title
+            {% if request.GET.order_by == 'title' %}
+              <i class="fas fa-sort-alpha-down"></i>
+            {% elif request.GET.order_by == '-title' %}
+              <i class="fas fa-sort-alpha-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'parent_task' %}-{% endif %}parent_task" class="text-dark">
+            Parent Task
+            {% if request.GET.order_by == 'parent_task' %}
+              <i class="fas fa-sort-alpha-down"></i>
+            {% elif request.GET.order_by == '-parent_task' %}
+              <i class="fas fa-sort-alpha-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>
+          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'status' %}-{% endif %}status" class="text-dark">
+            Status
+            {% if request.GET.order_by == 'status' %}
+              <i class="fas fa-sort-alpha-down"></i>
+            {% elif request.GET.order_by == '-status' %}
+              <i class="fas fa-sort-alpha-up"></i>
+            {% else %}
+              <i class="fas fa-sort"></i>
+            {% endif %}
+          </a>
+        </th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subtask in subtasks %}
+        <tr>
+          <td>{{ subtask.title }}</td>
+          <td>{{ subtask.parent_task.title }}</td>
+          <td>{{ subtask.status }}</td>
+          <td>
+            <a class="btn btn-sm btn-secondary" href="{% url 'subtask-update' subtask.pk %}">Edit</a>
+            <a class="btn btn-sm btn-danger" href="{% url 'subtask-delete' subtask.pk %}">Delete</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4">No subtasks found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

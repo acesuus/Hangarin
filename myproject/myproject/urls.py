@@ -14,9 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('pwa.urls')),
+    path('', include('task.urls')),
+    # project-level static/demo pages used by the layout
+    path('charts/', TemplateView.as_view(template_name='charts.html'), name='charts'),
+    path('tables/', TemplateView.as_view(template_name='tables.html'), name='tables'),
+    path('accounts/', include('allauth.urls')),  # allauth routes (includes login, register, password reset)
 ]
