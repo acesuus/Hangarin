@@ -1,0 +1,83 @@
+{% extends "account/base_auth.html" %}
+{% load i18n %}
+{% load account %}
+{% load widget_tweaks %}
+{% load socialaccount %}
+
+{% block title %}{% trans "Sign In" %} | Task Manager{% endblock %}
+
+{% block auth_header %}{% trans "Sign In" %}{% endblock %}
+
+{% block auth_content %}
+<form method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="form-floating mb-3">
+        {{ form.login|add_class:"form-control" }}
+        <label for="{{ form.login.id_for_label }}">{% trans "Email or Username" %}</label>
+        {% if form.login.errors %}
+        <div class="invalid-feedback d-block">
+            {% for error in form.login.errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-floating mb-3">
+        {{ form.password|add_class:"form-control" }}
+        <label for="{{ form.password.id_for_label }}">{% trans "Password" %}</label>
+        {% if form.password.errors %}
+        <div class="invalid-feedback d-block">
+            {% for error in form.password.errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="form-check mb-3">
+        {{ form.remember|add_class:"form-check-input" }}
+        <label class="form-check-label" for="{{ form.remember.id_for_label }}">
+            {% trans "Remember Me" %}
+        </label>
+    </div>
+
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+
+    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+        <a class="small" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+        <button class="btn btn-primary" type="submit">{% trans "Sign In" %}</button>
+    </div>
+</form>
+
+<div class="text-center mt-4">
+    <div class="small text-muted mb-3">{% trans "Or sign in with" %}</div>
+    <div class="mb-2">
+        <a href="{% provider_login_url 'google' process='login' %}" class="btn btn-outline-dark w-75">
+            <i class="fab fa-google me-2"></i>{% trans "Continue with Google" %}
+        </a>
+    </div>
+    <div>
+        <a href="{% provider_login_url 'github' process='login' %}" class="btn btn-outline-dark w-75">
+            <i class="fab fa-github me-2"></i>{% trans "Continue with GitHub" %}
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block auth_footer %}
+<div class="small">
+    {% trans "Need an account?" %}
+    <a href="{{ signup_url }}">{% trans "Sign up" %}</a>
+</div>
+{% endblock %}

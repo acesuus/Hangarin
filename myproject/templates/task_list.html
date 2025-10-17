@@ -1,72 +1,150 @@
 {% extends 'base.html' %}
 {% block title %}Tasks{% endblock %}
 {% block content %}
-  <h2>Tasks</h2>
-  <p>                    <a href="{% url 'task-create' %}" class="btn btn-primary">Add Task</a>
-                </div>
-                <div class="card-body">
-                    <form method="get" class="mb-3">
-                        <input type="text" placeholder="Search ..." class="form-control" name="q" />
-                    </form>
-                    <table id="datatablesSimple"></p>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>
-          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'title' %}-{% endif %}title" class="text-dark">
-            Title
-            {% if request.GET.order_by == 'title' %}
-              <i class="fas fa-sort-alpha-down"></i>
-            {% elif request.GET.order_by == '-title' %}
-              <i class="fas fa-sort-alpha-up"></i>
-            {% else %}
-              <i class="fas fa-sort"></i>
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">Tasks</h5>
+            {% if tasks.count %}
+                <span class="badge bg-secondary ms-2">{{ page_obj.paginator.count }} total</span>
             {% endif %}
-          </a>
-        </th>
-        <th>
-          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'status' %}-{% endif %}status" class="text-dark">
-            Status
-            {% if request.GET.order_by == 'status' %}
-              <i class="fas fa-sort-alpha-down"></i>
-            {% elif request.GET.order_by == '-status' %}
-              <i class="fas fa-sort-alpha-up"></i>
-            {% else %}
-              <i class="fas fa-sort"></i>
-            {% endif %}
-          </a>
-        </th>
-        <th>
-          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'priority' %}-{% endif %}priority" class="text-dark">
-            Priority
-            {% if request.GET.order_by == 'priority' %}
-              <i class="fas fa-sort-numeric-down"></i>
-            {% elif request.GET.order_by == '-priority' %}
-              <i class="fas fa-sort-numeric-up"></i>
-            {% else %}
-              <i class="fas fa-sort"></i>
-            {% endif %}
-          </a>
-        </th>
-        <th>Category</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for task in tasks %}
-        <tr>
-          <td>{{ task.title }}</td>
-          <td>{{ task.status }}</td>
-          <td>{{ task.priority }}</td>
-          <td>{{ task.category }}</td>
-          <td>
-            <a class="btn btn-sm btn-secondary" href="{% url 'task-update' task.pk %}">Edit</a>
-            <a class="btn btn-sm btn-danger" href="{% url 'task-delete' task.pk %}">Delete</a>
-          </td>
-        </tr>
-      {% empty %}
-        <tr><td colspan="5">No tasks found.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        </div>
+        <a href="{% url 'task-create' %}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus me-1"></i>Add Task
+        </a>
+    </div>
+    <div class="card-body">
+        <!-- Search Form -->
+        <form method="get" class="mb-3">
+            <div class="input-group">
+                <input type="text" placeholder="Search tasks..." class="form-control" name="q" value="{{ request.GET.q|default:'' }}">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>
+                            <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'title' %}-{% endif %}title" class="text-dark text-decoration-none">
+                                Title
+                                {% if request.GET.order_by == 'title' %}
+                                    <i class="fas fa-sort-alpha-down"></i>
+                                {% elif request.GET.order_by == '-title' %}
+                                    <i class="fas fa-sort-alpha-up"></i>
+                                {% else %}
+                                    <i class="fas fa-sort text-muted"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'status' %}-{% endif %}status" class="text-dark text-decoration-none">
+                                Status
+                                {% if request.GET.order_by == 'status' %}
+                                    <i class="fas fa-sort-alpha-down"></i>
+                                {% elif request.GET.order_by == '-status' %}
+                                    <i class="fas fa-sort-alpha-up"></i>
+                                {% else %}
+                                    <i class="fas fa-sort text-muted"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>
+                            <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'priority' %}-{% endif %}priority" class="text-dark text-decoration-none">
+                                Priority
+                                {% if request.GET.order_by == 'priority' %}
+                                    <i class="fas fa-sort-numeric-down"></i>
+                                {% elif request.GET.order_by == '-priority' %}
+                                    <i class="fas fa-sort-numeric-up"></i>
+                                {% else %}
+                                    <i class="fas fa-sort text-muted"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>Category</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.title }}</td>
+                            <td>
+                                <span class="badge bg-{% if task.status == 'Completed' %}success{% elif task.status == 'In Progress' %}warning{% else %}secondary{% endif %}">
+                                    {{ task.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-{% if task.priority.level < 2 %}success{% elif task.priority.level < 4 %}warning{% else %}danger{% endif %}">
+                                    {{ task.priority }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-info">{{ task.category }}</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <a class="btn btn-outline-secondary" href="{% url 'task-update' task.pk %}" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger" href="{% url 'task-delete' task.pk %}" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <i class="fas fa-tasks fa-2x mb-3 text-muted"></i>
+                                <p class="text-muted mb-0">No tasks found.</p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">&laquo; First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">Previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">Last &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

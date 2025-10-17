@@ -1,58 +1,133 @@
 {% extends 'base.html' %}
 {% block title %}Notes{% endblock %}
 {% block content %}
-  <h2>Notes</h2>
-  <p>                    <a href="{% url 'note-create' %}" class="btn btn-primary">Add Note</a>
-                </div>
-                <div class="card-body">
-                    <form method="get" class="mb-3">
-                        <input type="text" placeholder="Search ..." class="form-control" name="q" />
-                    </form>
-                    <table id="datatablesSimple"></p>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>
-          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'task' %}-{% endif %}task" class="text-dark">
-            Task
-            {% if request.GET.order_by == 'task' %}
-              <i class="fas fa-sort-alpha-down"></i>
-            {% elif request.GET.order_by == '-task' %}
-              <i class="fas fa-sort-alpha-up"></i>
-            {% else %}
-              <i class="fas fa-sort"></i>
+<div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <h5 class="mb-0">Notes</h5>
+            {% if notes.count %}
+                <span class="badge bg-secondary ms-2">{{ page_obj.paginator.count }} total</span>
             {% endif %}
-          </a>
-        </th>
-        <th>Content</th>
-        <th>
-          <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'created_at' %}-{% endif %}created_at" class="text-dark">
-            Created
-            {% if request.GET.order_by == 'created_at' %}
-              <i class="fas fa-sort-numeric-down"></i>
-            {% elif request.GET.order_by == '-created_at' %}
-              <i class="fas fa-sort-numeric-up"></i>
-            {% else %}
-              <i class="fas fa-sort"></i>
-            {% endif %}
-          </a>
-        </th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for note in notes %}
-        <tr>
-          <td>{{ note.task.title }}</td>
-          <td>{{ note.content }}</td>
-          <td>
-            <a class="btn btn-sm btn-secondary" href="{% url 'note-update' note.pk %}">Edit</a>
-            <a class="btn btn-sm btn-danger" href="{% url 'note-delete' note.pk %}">Delete</a>
-          </td>
-        </tr>
-      {% empty %}
-        <tr><td colspan="3">No notes found.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        </div>
+        <a href="{% url 'note-create' %}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus me-1"></i>Add Note
+        </a>
+    </div>
+    <div class="card-body">
+        <!-- Search Form -->
+        <form method="get" class="mb-3">
+            <div class="input-group">
+                <input type="text" placeholder="Search notes..." class="form-control" name="q" value="{{ request.GET.q|default:'' }}">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>
+                            <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'task' %}-{% endif %}task" class="text-dark text-decoration-none">
+                                Task
+                                {% if request.GET.order_by == 'task' %}
+                                    <i class="fas fa-sort-alpha-down"></i>
+                                {% elif request.GET.order_by == '-task' %}
+                                    <i class="fas fa-sort-alpha-up"></i>
+                                {% else %}
+                                    <i class="fas fa-sort text-muted"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th>Content</th>
+                        <th>
+                            <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}order_by={% if request.GET.order_by == 'created_at' %}-{% endif %}created_at" class="text-dark text-decoration-none">
+                                Created
+                                {% if request.GET.order_by == 'created_at' %}
+                                    <i class="fas fa-sort-numeric-down"></i>
+                                {% elif request.GET.order_by == '-created_at' %}
+                                    <i class="fas fa-sort-numeric-up"></i>
+                                {% else %}
+                                    <i class="fas fa-sort text-muted"></i>
+                                {% endif %}
+                            </a>
+                        </th>
+                        <th class="text-center" style="width: 120px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for note in notes %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-primary">{{ note.task.title }}</span>
+                            </td>
+                            <td>
+                                <div style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    {{ note.content }}
+                                </div>
+                            </td>
+                            <td>{{ note.created_at|date:"M d, Y H:i" }}</td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <a class="btn btn-outline-secondary" href="{% url 'note-update' note.pk %}" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-outline-danger" href="{% url 'note-delete' note.pk %}" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4">
+                                <i class="fas fa-sticky-note fa-2x mb-3 text-muted"></i>
+                                <p class="text-muted mb-0">No notes found.</p>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">&laquo; First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">Previous</a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.order_by %}&order_by={{ request.GET.order_by }}{% endif %}">Last &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,55 @@
+{% extends "socialaccount/base_social.html" %}
+{% load i18n %}
+{% load socialaccount %}
+{% load account %}
+
+{% block title %}{% trans "GitHub Sign In" %} | Task Manager{% endblock %}
+
+{% block header %}
+<div class="text-center">
+    <i class="fab fa-github fa-3x mb-3"></i>
+    <h3 class="font-weight-light">{% trans "Sign In with GitHub" %}</h3>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    {% if process == "connect" %}
+    <p>{% blocktrans %}You are about to connect a GitHub account.{% endblocktrans %}</p>
+    {% else %}
+    <p>{% blocktrans %}You are about to sign in using a GitHub account.{% endblocktrans %}</p>
+    {% endif %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+        <p class="mb-0">{{ error }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-dark">
+            <i class="fab fa-github me-2"></i>
+            {% if process == "connect" %}
+                {% trans "Connect to GitHub" %}
+            {% else %}
+                {% trans "Continue with GitHub" %}
+            {% endif %}
+        </button>
+        <a href="{% url 'account_login' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>{% trans "Back to Login" %}
+        </a>
+    </div>
+</form>
+{% endblock %}
+
+{% block footer %}
+<div class="small text-center text-muted">
+    {% trans "This will securely sign you in using your GitHub account." %}
+</div>
+{% endblock %}

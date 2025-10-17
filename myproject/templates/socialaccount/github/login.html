@@ -1,0 +1,47 @@
+{% extends "socialaccount/base_social.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block title %}{% trans "GitHub Login" %}{% endblock %}
+
+{% block header %}
+<div class="text-center">
+    <i class="fab fa-github fa-3x mb-3"></i>
+    <h3 class="font-weight-light">{% trans "GitHub Sign In" %}</h3>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if process == "connect" %}
+<p class="text-center mb-4">{% blocktrans %}You are about to connect your account to GitHub.{% endblocktrans %}</p>
+{% else %}
+<p class="text-center mb-4">{% blocktrans %}You are about to sign in using your GitHub account.{% endblocktrans %}</p>
+{% endif %}
+
+<form method="post" action="{% url 'socialaccount_login' %}">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    <div class="d-grid">
+        <button class="btn btn-dark btn-block" type="submit">
+            {% if process == "connect" %}
+            {% trans "Connect with GitHub" %}
+            {% else %}
+            {% trans "Sign In with GitHub" %}
+            {% endif %}
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block footer %}
+<div class="small">
+    <a href="{% url 'account_login' %}">{% trans "Back to Login" %}</a>
+</div>
+{% endblock %}
