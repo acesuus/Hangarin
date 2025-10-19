@@ -1,68 +1,180 @@
 
+/* Base mobile styles */
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
 @media (max-width: 576px) {
+    /* Layout */
     .container-fluid {
         padding-left: 10px;
         padding-right: 10px;
     }
-    
 
+    /* Navigation */
+    #layoutSidenav_content {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    .sb-sidenav {
+        width: 100%;
+        max-width: 100%;
+        transform: translateX(-100%);
+        transition: transform .15s ease-in-out;
+    }
+
+    .sb-sidenav-toggled .sb-sidenav {
+        transform: translateX(0);
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem;
+        padding: 0.5rem;
+    }
+
+    /* Cards */
     .card {
         margin-bottom: 1rem;
         padding: 0.75rem;
     }
-    
 
+    .card-body {
+        padding: 0.75rem;
+    }
+
+    /* Tables */
     .table-responsive {
         font-size: 0.875rem;
+        margin: 0 -10px;
+        width: calc(100% + 20px);
     }
-    
 
+    .table td, .table th {
+        padding: 0.5rem;
+    }
+
+    /* Forms */
     .form-control, .form-select {
         font-size: 16px; /* Prevents iOS zoom on focus */
+        height: 44px;
     }
-    
 
     .btn {
         padding: 0.5rem 0.75rem;
         min-height: 44px;
-    }
-    
-    /* Improve mobile navigation */
-    .sb-sidenav {
         width: 100%;
-        max-width: 100%;
+        margin-bottom: 0.5rem;
     }
-    
-    /* Improve dropdown menus on mobile */
+
+    /* Dropdowns */
     .dropdown-menu {
         font-size: 0.875rem;
-        max-height: 80vh;
+        max-height: 70vh;
         overflow-y: auto;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100%;
+        margin: 0;
+        border-radius: 1rem 1rem 0 0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    .dropdown-item {
+        padding: 0.75rem 1rem;
+    }
+
+    /* Typography */
+    h1, .h1 { font-size: 1.5rem !important; }
+    h2, .h2 { font-size: 1.3rem !important; }
+    h3, .h3 { font-size: 1.2rem !important; }
+    h4, .h4 { font-size: 1.1rem !important; }
+
+    /* Search form */
+    .d-md-inline-block.form-inline {
+        width: 100%;
+        margin: 0.5rem 0;
     }
 }
 
-@media (max-width: 768px) {
-    /* Adjust spacing for medium devices */
+/* Medium devices (576px - 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
     .card-body {
         padding: 1rem;
     }
-    
-    /* Make headings more compact */
+
     h1, .h1 { font-size: 1.75rem; }
     h2, .h2 { font-size: 1.5rem; }
     h3, .h3 { font-size: 1.25rem; }
-    
-    /* Improve form layouts */
+
     .form-group {
         margin-bottom: 0.75rem;
     }
+
+    .btn {
+        min-height: 38px;
+    }
 }
 
-/* Tablet and larger devices */
+/* Navigation adjustments for mobile and tablet */
+@media (max-width: 768px) {
+    .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
+        width: 225px;
+        height: 100vh;
+        position: fixed;
+        left: -225px;
+        transition: left .15s ease-in-out;
+    }
+
+    .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+        left: 0;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1rem;
+    }
+
+    .table th {
+        white-space: nowrap;
+    }
+}
+
+/* Tablet devices */
 @media (min-width: 769px) and (max-width: 1024px) {
     .container-fluid {
         padding-left: 1.5rem;
         padding-right: 1.5rem;
+    }
+
+    #layoutSidenav_content {
+        margin-left: 225px;
+        transition: margin .15s ease-in-out;
+    }
+}
+
+/* Desktop and larger devices */
+@media (min-width: 1025px) {
+    #layoutSidenav_content {
+        margin-left: 225px;
+        transition: margin .15s ease-in-out;
+    }
+
+    .navbar-brand {
+        width: 225px;
     }
 }
 
@@ -70,29 +182,55 @@
 .table-responsive {
     margin-bottom: 1rem;
     border-radius: 0.25rem;
+    background-color: #fff;
 }
 
 .card {
     height: 100%;
+    transition: transform 0.2s ease-in-out;
 }
 
-/* Improve touch targets */
-.nav-link, .dropdown-item {
-    padding: 0.75rem 1rem;
+/* Form Improvements */
+.form-group {
+    margin-bottom: 1rem;
 }
 
-/* Fix spacing issues */
-.mt-4 {
-    margin-top: 1.5rem !important;
-}
-
-/* Improve form accessibility */
 input, select, textarea {
     max-width: 100%;
 }
 
-/* Improve image responsiveness */
+/* Navigation and touch targets */
+.nav-link, .dropdown-item {
+    padding: 0.75rem 1rem;
+}
+
+/* Spacing utilities */
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+/* Image handling */
 img {
     max-width: 100%;
     height: auto;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .table-responsive {
+        background-color: #343a40;
+    }
+}
+
+/* Print styles */
+@media print {
+    .sb-nav-fixed #layoutSidenav #layoutSidenav_nav,
+    .sb-nav-fixed .sb-topnav {
+        display: none;
+    }
+
+    #layoutSidenav_content {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 }
