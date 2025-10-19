@@ -51,9 +51,9 @@
         </li>
       </ul>
       {% else %}
-      <div class="ms-auto">
-        <a href="{% url 'account_login' %}" class="btn btn-outline-light">Login</a>
-        <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
+      <div class="ms-auto d-flex align-items-center auth-buttons">
+        <a href="{% url 'account_login' %}" class="btn btn-outline-light btn-sm me-2">Login</a>
+        <a href="{% url 'account_signup' %}" class="btn btn-primary btn-sm">Sign Up</a>
       </div>
       {% endif %}
     </nav>
