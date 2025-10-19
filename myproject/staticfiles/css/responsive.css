@@ -1,0 +1,98 @@
+
+@media (max-width: 576px) {
+    .container-fluid {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+
+    .card {
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+    }
+    
+
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+    
+
+    .form-control, .form-select {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+    
+
+    .btn {
+        padding: 0.5rem 0.75rem;
+        min-height: 44px;
+    }
+    
+    /* Improve mobile navigation */
+    .sb-sidenav {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    /* Improve dropdown menus on mobile */
+    .dropdown-menu {
+        font-size: 0.875rem;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Adjust spacing for medium devices */
+    .card-body {
+        padding: 1rem;
+    }
+    
+    /* Make headings more compact */
+    h1, .h1 { font-size: 1.75rem; }
+    h2, .h2 { font-size: 1.5rem; }
+    h3, .h3 { font-size: 1.25rem; }
+    
+    /* Improve form layouts */
+    .form-group {
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Tablet and larger devices */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container-fluid {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+/* General improvements */
+.table-responsive {
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+}
+
+.card {
+    height: 100%;
+}
+
+/* Improve touch targets */
+.nav-link, .dropdown-item {
+    padding: 0.75rem 1rem;
+}
+
+/* Fix spacing issues */
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+/* Improve form accessibility */
+input, select, textarea {
+    max-width: 100%;
+}
+
+/* Improve image responsiveness */
+img {
+    max-width: 100%;
+    height: auto;
+}
