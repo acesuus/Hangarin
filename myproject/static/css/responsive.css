@@ -18,7 +18,7 @@ html, body {
         padding-right: 10px;
     }
 
-    /* Navigation */
+    /* Navigation and Header */
     #layoutSidenav_content {
         padding-left: 0 !important;
         margin-left: 0 !important;
@@ -35,9 +35,43 @@ html, body {
         transform: translateX(0);
     }
 
+    /* Navbar brand and auth buttons */
     .navbar-brand {
         font-size: 1.1rem;
         padding: 0.5rem;
+        min-width: auto !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-brand .d-none {
+        display: inline !important;
+    }
+
+    .navbar-brand i {
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+    }
+
+    /* Login/Signup buttons container */
+    .ms-auto {
+        margin-left: auto !important;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Auth buttons */
+    .btn-outline-light, .btn-primary {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.875rem;
+        min-height: 35px;
+        margin: 0;
+        width: auto !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 80px;
     }
 
     /* Cards */
@@ -53,12 +87,33 @@ html, body {
     /* Tables */
     .table-responsive {
         font-size: 0.875rem;
-        margin: 0 -10px;
-        width: calc(100% + 20px);
+        margin: 0;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+        width: 100% !important;
+        margin-bottom: 0;
     }
 
     .table td, .table th {
         padding: 0.5rem;
+        white-space: nowrap;
+        min-width: 100px;
+    }
+
+    /* Add horizontal scroll indicator */
+    .table-responsive::after {
+        content: "⟷ Swipe to see more";
+        display: block;
+        text-align: center;
+        padding: 0.5rem;
+        color: #6c757d;
+        font-size: 0.75rem;
+        background: #f8f9fa;
+        border-top: 1px solid #dee2e6;
     }
 
     /* Forms */

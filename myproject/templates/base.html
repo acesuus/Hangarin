@@ -18,7 +18,7 @@
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
       <a class="navbar-brand ps-3" href="{% url 'home' %}">
         <i class="fas fa-check-circle me-1"></i>
-        <span class="d-none d-sm-inline">Hangarin</span>
+        <span class="d-none">Hangarin</span>
       </a>
       <button class="btn btn-link btn-sm order-1 order-lg-0 me-2 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
       {% if user.is_authenticated %}
@@ -52,7 +52,7 @@
       </ul>
       {% else %}
       <div class="ms-auto">
-        <a href="{% url 'account_login' %}" class="btn btn-outline-light me-2">Login</a>
+        <a href="{% url 'account_login' %}" class="btn btn-outline-light">Login</a>
         <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
       </div>
       {% endif %}
