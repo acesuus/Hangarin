@@ -15,7 +15,7 @@ from .models import Priority, Category, Task, Note, SubTask
 
 class HomePageView(ListView):
     template_name = "index.html"
-    model = Task  # Using Task as the base model, but we'll override get_queryset
+    model = Task  
     context_object_name = 'tasks'
 
     def get_context_data(self, **kwargs):
@@ -44,7 +44,7 @@ class PriorityListView(ListView):
                 Q(level__icontains=query)
             )
         
-        # Order by level first, then name
+
         ordering = self.request.GET.get('order_by', 'level')
         if ordering == 'name':
             qs = qs.order_by('name')
@@ -71,7 +71,7 @@ class PriorityUpdateView(SuccessMessageMixin, UpdateView):
     model = Priority
     fields = ["name", "level"]
     template_name = "priority_form.html"
-    # after updating, stay on the same update page
+
     def get_success_url(self):
         from django.urls import reverse
         return reverse('priority-update', kwargs={'pk': self.object.pk})
@@ -82,14 +82,14 @@ class PriorityCreateView(SuccessMessageMixin, CreateView):
     model = Priority
     fields = ["name", "level"]
     template_name = "priority_form.html"
-    # after creating, redirect to the update page for the created object
+
     def get_success_url(self):
         from django.urls import reverse
         return reverse('priority-update', kwargs={'pk': self.object.pk})
     success_message = "Priority created successfully."
 
 
-# Category Views
+
 class CategoryListView(ListView):
     model = Category
     template_name = "category_list.html"

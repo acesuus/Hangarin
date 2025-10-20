@@ -1,0 +1,43 @@
+/* Custom table styles */
+.table,
+.datatable-table {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.table thead th,
+.datatable-table thead th {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+}
+
+.table tbody td,
+.datatable-table tbody td {
+    color: #ffffff !important;
+}
+
+.table-hover tbody tr:hover,
+.datatable-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+}
+
+/* Fix dropdown menu in dark mode */
+.dropdown-menu {
+    background-color: #343a40;
+    border-color: #454d55;
+}
+
+.dropdown-menu .dropdown-item {
+    color: #ffffff;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: #454d55;
+    color: #ffffff;
+}
+
+.dropdown-menu .dropdown-divider {
+    border-top-color: #454d55;
+}

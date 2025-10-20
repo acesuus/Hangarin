@@ -30,7 +30,13 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Site configuration
-SITE_ID = 1 # Local development site ID
+def get_site_id():
+    hostname = socket.gethostname()
+    if 'pythonanywhere' in hostname.lower():
+        return 2  # Production site ID for pythonanywhere
+    return 1  # Local development site ID
+
+SITE_ID = get_site_id()
 
 # Application definition
 
@@ -105,7 +111,7 @@ SOCIALACCOUNT_STORE_TOKENS = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # Authentication Settings
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https' if get_site_id() == 2 else 'http'  # Use HTTPS in production
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
