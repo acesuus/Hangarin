@@ -1,0 +1,109 @@
+/* Mobile Navigation Styles */
+@media (max-width: 768px) {
+    /* Dropdown positioning */
+    .dropdown-menu {
+        position: fixed !important;
+        left: auto !important;
+        right: 0 !important;
+        top: 56px !important; /* Adjust based on your navbar height */
+        width: 250px;
+        transform: none !important;
+        margin: 0;
+        border-radius: 0 0 0.25rem 0.25rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+    }
+
+    /* Dropdown items */
+    .dropdown-item {
+        padding: 0.75rem 1.25rem;
+        color: #fff;
+        background-color: #343a40;
+    }
+
+    .dropdown-item:hover, 
+    .dropdown-item:focus {
+        color: #fff;
+        background-color: #424649;
+    }
+
+    /* Dropdown divider */
+    .dropdown-divider {
+        border-top-color: rgba(255, 255, 255, 0.15);
+        margin: 0.5rem 0;
+    }
+
+    /* User dropdown button */
+    .nav-link.dropdown-toggle {
+        padding: 0.5rem;
+        color: rgba(255, 255, 255, 0.75) !important;
+    }
+
+    .nav-link.dropdown-toggle:hover,
+    .nav-link.dropdown-toggle:focus {
+        color: #fff !important;
+    }
+
+    /* Ensure dropdown menu is visible */
+    .dropdown-menu.show {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        background-color: #343a40;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Improve touch targets */
+    .dropdown-item,
+    .nav-link {
+        min-height: 44px;
+        display: flex !important;
+        align-items: center;
+    }
+
+    /* Icons in dropdown */
+    .dropdown-item i {
+        width: 20px;
+        text-align: center;
+    }
+
+    /* Ensure proper spacing */
+    .ms-auto {
+        margin-left: auto !important;
+    }
+
+    /* Navbar fixes */
+    .navbar-nav {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+/* Dark mode enhancements */
+.dropdown-menu {
+    background-color: #343a40;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dropdown-item {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Button reset for dropdown toggle */
+.btn-link.nav-link {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    color: rgba(255, 255, 255, 0.75);
+    border: none;
+    background: none;
+}
+
+.btn-link.nav-link:hover,
+.btn-link.nav-link:focus {
+    color: #fff;
+}
