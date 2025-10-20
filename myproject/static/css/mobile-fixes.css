@@ -1,0 +1,43 @@
+/* Dropdown menu fixes */
+.dropdown-menu {
+    position: absolute !important;
+    transform: none !important;
+    right: 0 !important;
+    left: auto !important;
+    top: 100% !important;
+}
+
+@media (max-width: 768px) {
+    .dropdown-menu {
+        background-color: #343a40;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .dropdown-item {
+        color: #fff !important;
+    }
+
+    .dropdown-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-nav .dropdown-menu {
+        position: absolute !important;
+        float: none;
+    }
+
+    .navbar-nav {
+        position: relative;
+    }
+}
+
+/* Fix navbar alignment on mobile */
+@media (max-width: 768px) {
+    .navbar-nav {
+        margin-left: auto !important;
+    }
+    
+    .ms-auto.ms-md-0 {
+        margin-left: 0 !important;
+    }
+}
