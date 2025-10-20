@@ -30,6 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Site configuration
+
 def get_site_id():
     hostname = socket.gethostname()
     if 'pythonanywhere' in hostname.lower():
@@ -79,6 +80,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 CSRF_USE_SESSIONS = True  # Store CSRF token in session instead of cookie
 
+
 # Social Auth Settings
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -87,7 +89,8 @@ SOCIALACCOUNT_PROVIDERS = {
             'email',
         ],
         'AUTH_PARAMS': {
-            'access_type': 'online',
+            'access_type': 'offline',
+            'prompt': 'select_account',
         },
         'OAUTH_PKCE_ENABLED': True,
         'VERIFIED_EMAIL': True,
@@ -112,13 +115,24 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # Authentication Settings
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https' if get_site_id() == 2 else 'http'  # Use HTTPS in production
-SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_AUTO_SIGNUP = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_UNIQUE_EMAIL = True
-SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_MIN_LENGTH = 3
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = None
+
+# Social Account Settings
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_STORE_TOKENS = True
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+SOCIALACCOUNT_EMAIL_VERIFICATION = False
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_PROVIDERS_CALLBACK_URL = 'accounts/google/login/callback/'
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -151,6 +165,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
+                'task.context_processors.user_context',
             ],
         },
     },
@@ -223,18 +238,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Social Account Settings
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-        'OAUTH_PKCE_ENABLED': True,
-    }
-}
 
 
 
