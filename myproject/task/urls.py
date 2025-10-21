@@ -25,8 +25,8 @@ from .views import (
 )
 
 urlpatterns = [
-    path('', login_required(HomePageView.as_view(template_name="index.html")), name='home'),
-    path('dashboard/', login_required(TaskListView.as_view()), name='task-list'),
+    path('', HomePageView.as_view(template_name="index.html"), name='home'),
+    path('task/', login_required(TaskListView.as_view()), name='task-list'),
     path('priorities/', login_required(PriorityListView.as_view()), name='priority-list'),
     path('priorities/<int:pk>/delete/', login_required(PriorityDeleteView.as_view()), name='priority-delete'),
     path('priorities/<int:pk>/update/', login_required(PriorityUpdateView.as_view()), name='priority-update'),

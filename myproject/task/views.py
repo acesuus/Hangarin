@@ -9,22 +9,28 @@ from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.db.models import Q
+from django.shortcuts import redirect
 
 from .models import Priority, Category, Task, Note, SubTask
 
 
-class HomePageView(ListView):
+class HomePageView(TemplateView):
     template_name = "index.html"
-    model = Task  
-    context_object_name = 'tasks'
+
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('account_login')
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        if not self.request.user.is_authenticated:
+            return {}
         context = super().get_context_data(**kwargs)
-        context['task_count'] = Task.objects.count()
-        context['category_count'] = Category.objects.count()
-        context['note_count'] = Note.objects.count()
-        context['subtask_count'] = SubTask.objects.count()
-        context['priority_count'] = Priority.objects.count()
+        context['task_count'] = Task.objects.filter(user=self.request.user).count()
+        context['category_count'] = Category.objects.filter(user=self.request.user).count()
+        context['note_count'] = Note.objects.filter(task__user=self.request.user).count()
+        context['subtask_count'] = SubTask.objects.filter(parent_task__user=self.request.user).count()
+        context['priority_count'] = Priority.objects.filter(user=self.request.user).count()
         return context
 
 

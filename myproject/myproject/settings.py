@@ -99,12 +99,9 @@ SOCIALACCOUNT_PROVIDERS = {
 # Account Settings
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_UNIQUE_EMAIL = False  # Allow same email from different providers
-ACCOUNT_USERNAME_REQUIRED = False  # Don't require username for social login
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True  # Require unique emails
 ACCOUNT_USERNAME_MIN_LENGTH = 3
-ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Use email for authentication
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = None
+ACCOUNT_LOGIN_METHODS = ['email']  # Use email for authentication
 
 # Social Account Settings
 SOCIALACCOUNT_AUTO_SIGNUP = True
@@ -117,7 +114,7 @@ SOCIALACCOUNT_USERNAME_REQUIRED = False
 SOCIALACCOUNT_PROVIDERS_CALLBACK_URL = None  # Remove any specific callback URL
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/tasks/'  # Changed to tasks page after login
+LOGIN_REDIRECT_URL = '/'  # Redirect to index page after login
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_ON_GET = False
