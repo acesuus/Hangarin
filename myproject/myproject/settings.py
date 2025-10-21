@@ -85,42 +85,36 @@ SOCIALACCOUNT_PROVIDERS = {
             'email',
         ],
         'AUTH_PARAMS': {
-            'access_type': 'offline',
-            'prompt': 'select_account',
-        },
-        'OAUTH_PKCE_ENABLED': True,
-        'VERIFIED_EMAIL': True,
-        'VERSION': 'v2.0',
+            'access_type': 'online',  # Changed to online for independent session
+        }
     },
     'github': {
         'SCOPE': [
             'read:user',
             'user:email',
-        ],
-        'VERIFIED_EMAIL': True
+        ]
     }
 }
 
-# Additional Social Auth Settings
-SOCIALACCOUNT_PROVIDER_CATEGORIES = []
-SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_AUTO_SIGNUP = True
-SOCIALACCOUNT_STORE_TOKENS = True
-
-
+# Account Settings
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_LOGOUT_ON_GET = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = False  # Allow same email from different providers
+ACCOUNT_USERNAME_REQUIRED = False  # Don't require username for social login
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_MIN_LENGTH = 3
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Use email for authentication
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = None
 
 # Social Account Settings
-SOCIALACCOUNT_AUTO_SIGNUP = True  # Enable auto signup
+SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_STORE_TOKENS = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+SOCIALACCOUNT_EMAIL_REQUIRED = False
+SOCIALACCOUNT_USERNAME_REQUIRED = False
+SOCIALACCOUNT_PROVIDERS_CALLBACK_URL = None  # Remove any specific callback URL
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/tasks/'  # Changed to tasks page after login
