@@ -5,12 +5,14 @@ from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
-def redirect_to_login(request):
+def redirect_to_home(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     return redirect('account_login')
 
 urlpatterns = [
     # Core
-    path('', redirect_to_login, name='root'),  # Redirect root to login
+    path('', redirect_to_home, name='root'),  # Redirect to home if logged in, login if not
     path('admin/', admin.site.urls),
     path('', include('task.urls')),        # main app (homepage + models)
     path('', include('pwa.urls')),         # PWA assets (manifest, service worker)
