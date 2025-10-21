@@ -31,14 +31,10 @@ ALLOWED_HOSTS = ['*']
 
 # Site configuration
 
-def get_site_id():
-    hostname = socket.gethostname()
-    if 'pythonanywhere' in hostname.lower():
-        return 2  # Production site ID for pythonanywhere
-    return 1  # Local development site ID
-
-SITE_ID = get_site_id()
-
+if "pythonanywhere" in socket.gethostname():
+    SITE_ID = 2 # production site (psusphere.pythonanywhere.com)
+else:
+    SITE_ID = 1 # local site (127.0.0.1:8000)
 # Application definition
 
 INSTALLED_APPS = [
@@ -113,8 +109,7 @@ SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_STORE_TOKENS = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
-# Authentication Settings
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https' if get_site_id() == 2 else 'http'  # Use HTTPS in production
+
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_UNIQUE_EMAIL = True
