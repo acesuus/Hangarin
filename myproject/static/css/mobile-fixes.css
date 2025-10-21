@@ -1,4 +1,4 @@
-/* Dropdown menu fixes */
+/* === DROPDOWN & NAV FIXES === */
 .sb-topnav {
     position: relative;
     z-index: 1060 !important;
@@ -21,108 +21,94 @@
     top: 100% !important;
 }
 
+/* ================================
+   MOBILE VIEW FIXES
+================================ */
 @media (max-width: 768px) {
+
+    /* Remove conflicting stacking context */
     #layoutSidenav_content {
-        position: relative;
-        z-index: 1;
-    }
-
-    .nav-profile-wrapper {
         position: static !important;
+        z-index: auto !important;
     }
 
-    .nav-profile-wrapper .navbar-nav {
-        position: static !important;
-        width: 100%;
+    /* Ensure navbar and dropdown stay above all content */
+    .sb-topnav,
+    .nav-profile-wrapper,
+    .dropdown-menu {
+        z-index: 9999 !important;
     }
 
-    .nav-profile-wrapper .nav-item.dropdown {
-        position: static !important;
-        width: 100%;
-    }
-
+    /* Reposition dropdown below navbar for mobile */
     .sb-topnav .dropdown-menu {
-        position: fixed !important;
-        bottom: 0 !important;
-        top: auto !important;
-        right: 0 !important;
+        position: absolute !important;
+        top: 56px !important; /* height of navbar */
         left: 0 !important;
+        right: 0 !important;
+        bottom: auto !important;
         background-color: #343a40;
         border: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
         width: 100%;
-        height: auto !important;
-        max-height: 80px !important;
-        min-height: 80px !important;
-        z-index: 1055 !important;
-        margin: 0;
-        padding: 0;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        padding: 0.5rem 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         display: flex !important;
-        flex-direction: row !important;
+        flex-wrap: wrap !important;
         justify-content: space-around !important;
         align-items: center !important;
-        overflow-x: auto;
     }
 
     .dropdown-item {
         color: #fff !important;
         padding: 0.5rem;
-        height: 80px;
-        min-width: 80px;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: center !important;
         align-items: center !important;
+        justify-content: center !important;
         text-align: center;
-        white-space: normal;
-        word-wrap: break-word;
+        min-width: 80px;
+        flex: 1;
         border: none;
         font-size: 0.75rem;
-        flex: 1;
+        background: transparent;
     }
 
     .dropdown-item i {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         margin-bottom: 4px;
-        display: block;
-        width: auto;
-        text-align: center;
     }
 
     .dropdown-item:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
 
+    /* Hide dividers for compact layout */
     .dropdown-divider {
-        display: none;
+        display: none !important;
     }
 
-    /* Hide text labels on very small screens */
+    /* Smaller text on tiny screens */
     @media (max-width: 360px) {
         .dropdown-item {
             font-size: 0.7rem;
         }
     }
 
-    /* Make the logout button more visible */
+    /* Logout button style fix */
     .dropdown-item[type="submit"] {
-        background: transparent;
         border: none;
-        text-align: left;
+        background: transparent;
+        text-align: center;
         width: 100%;
-        min-height: 48px;
         display: flex !important;
         align-items: center !important;
+        justify-content: center !important;
     }
-}
 
-/* Fix navbar alignment on mobile */
-@media (max-width: 768px) {
+    /* Navbar alignment on mobile */
     .navbar-nav {
         margin-left: auto !important;
     }
-    
+
     .ms-auto.ms-md-0 {
         margin-left: 0 !important;
     }
