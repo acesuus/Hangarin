@@ -1,0 +1,37 @@
+{% load static %}
+<div class="mobile-profile-menu" id="mobileProfileMenu">
+    <div class="mobile-profile-header">
+        <button class="close-menu" onclick="closeMobileMenu()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="profile-info">
+            <i class="fas fa-user-circle fa-2x"></i>
+            <span class="username">{{ user.username }}</span>
+        </div>
+    </div>
+    <div class="mobile-menu-items">
+        <a class="mobile-menu-item" href="{% url 'account_email' %}">
+            <i class="fas fa-envelope fa-fw"></i>
+            <span>Email Settings</span>
+        </a>
+        <a class="mobile-menu-item" href="{% url 'socialaccount_connections' %}">
+            <i class="fas fa-link fa-fw"></i>
+            <span>Social Accounts</span>
+        </a>
+        <a class="mobile-menu-item" href="{% url 'account_set_password' %}">
+            <i class="fas fa-key fa-fw"></i>
+            <span>Set Password</span>
+        </a>
+        <a class="mobile-menu-item" href="{% url 'account_change_password' %}">
+            <i class="fas fa-lock fa-fw"></i>
+            <span>Change Password</span>
+        </a>
+        <form method="post" action="{% url 'account_logout' %}" class="mobile-menu-item logout-form">
+            {% csrf_token %}
+            <button type="submit" class="mobile-logout-btn">
+                <i class="fas fa-sign-out-alt fa-fw"></i>
+                <span>Sign Out</span>
+            </button>
+        </form>
+    </div>
+</div>
