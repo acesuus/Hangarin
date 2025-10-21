@@ -1,46 +1,67 @@
 /* Dropdown menu fixes */
+.sb-topnav {
+    position: relative;
+    z-index: 1060 !important;
+}
+
 .dropdown-menu {
     position: absolute !important;
     transform: none !important;
     right: 0 !important;
     left: auto !important;
     top: 100% !important;
-    z-index: 1050 !important;
 }
 
 @media (max-width: 768px) {
-    .dropdown-menu {
+    #layoutSidenav_content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .sb-topnav .navbar-nav {
+        position: static !important;
+    }
+
+    .sb-topnav .nav-item.dropdown {
+        position: static !important;
+    }
+
+    .sb-topnav .dropdown-menu {
+        position: fixed !important;
+        top: 56px !important; /* Height of navbar */
+        right: 0 !important;
+        left: 0 !important;
         background-color: #343a40;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        width: auto;
-        min-width: 200px;
-        max-width: calc(100vw - 30px);
-        margin-right: 15px;
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        width: 100%;
+        max-height: calc(100vh - 56px);
+        overflow-y: auto;
+        z-index: 1055 !important;
+        margin: 0;
+        padding: 0.5rem 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .dropdown-item {
         color: #fff !important;
-        padding: 0.5rem 1rem;
+        padding: 0.75rem 1.25rem;
         white-space: normal;
         word-wrap: break-word;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-item:last-child {
+        border-bottom: none;
     }
 
     .dropdown-item:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
 
-    .navbar-nav .dropdown-menu {
-        position: fixed !important;
-        float: none;
-        top: auto !important;
-    }
-
-    .navbar-nav {
-        position: static;
-    }
-
-    .nav-item.dropdown {
-        position: static;
+    .dropdown-divider {
+        border-color: rgba(255, 255, 255, 0.15);
+        margin: 0.25rem 0;
     }
 }
 
