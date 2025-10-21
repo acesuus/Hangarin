@@ -94,26 +94,18 @@ SOCIALACCOUNT_PROVIDERS = {
     },
     'github': {
         'SCOPE': [
-            'user',
-            'email',
+            'read:user',
+            'user:email',
         ],
-        'METHOD': 'oauth2',
-        'VERIFIED_EMAIL': True,
-        'VERSION': '3'
+        'VERIFIED_EMAIL': True
     }
 }
 
 # Additional Social Auth Settings
-SOCIALACCOUNT_ADAPTER = 'task.adapters.CustomSocialAccountAdapter'
-SOCIALACCOUNT_AUTO_SIGNUP = False  # Prevent automatic signup
-SOCIALACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
-SOCIALACCOUNT_QUERY_EMAIL = True
-SOCIALACCOUNT_STORE_TOKENS = True
+SOCIALACCOUNT_PROVIDER_CATEGORIES = []
 SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_FORMS = {
-    'signup': 'allauth.socialaccount.forms.SignupForm'
-}
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_STORE_TOKENS = True
 
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
@@ -126,7 +118,9 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = None
 
 # Social Account Settings
-# Remove duplicate settings as they are defined above
+SOCIALACCOUNT_AUTO_SIGNUP = True  # Enable auto signup
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_STORE_TOKENS = True
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/tasks/'  # Changed to tasks page after login
