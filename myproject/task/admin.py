@@ -1,7 +1,19 @@
 from django.contrib import admin
+from django import forms
+from django.forms import widgets
 
 # Register your models here.
 from .models import Priority, Category, Task, Note, SubTask
+
+class TaskAdminForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = '__all__'
+        widgets = {
+            'deadline': forms.DateInput(
+                attrs={'type': 'date', 'class': 'vDateField'}
+            )
+        }
 
 class SubTaskInline(admin.TabularInline):
     model = SubTask
@@ -29,9 +41,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
+    form = TaskAdminForm
     list_display = ("title", "status", "deadline", "priority", "category")
-    list_filter = ("status", "priority", "category",)
+    list_filter = ("status", "priority", "category", "deadline")
     search_fields = ("title",)
+    date_hierarchy = 'deadline'
 
     inlines = [SubTaskInline, NoteInline]
 

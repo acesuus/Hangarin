@@ -10,7 +10,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import redirect
-
+from .forms import TaskForm
 from .models import Priority, Category, Task, Note, SubTask
 
 
@@ -78,9 +78,8 @@ class PriorityUpdateView(SuccessMessageMixin, UpdateView):
     template_name = "priority_form.html"
 
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('priority-update', kwargs={'pk': self.object.pk})
-    success_message = "Priority updated successfully."
+        return self.request.path  # Stay on the same page
+    success_message = "Priority saved successfully."
 
 
 class PriorityCreateView(SuccessMessageMixin, CreateView):
@@ -93,9 +92,8 @@ class PriorityCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('priority-update', kwargs={'pk': self.object.pk})
-    success_message = "Priority created successfully."
+        return self.request.path  # Stay on the same create form
+    success_message = "Priority saved successfully. You can create another one."
 
 
 
@@ -137,9 +135,8 @@ class CategoryUpdateView(SuccessMessageMixin, UpdateView):
     fields = ["name"]
     template_name = "category_form.html"
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('category-update', kwargs={'pk': self.object.pk})
-    success_message = "Category updated successfully."
+        return self.request.path  # Stay on the same page
+    success_message = "Category saved successfully."
 
 
 class CategoryCreateView(SuccessMessageMixin, CreateView):
@@ -152,9 +149,8 @@ class CategoryCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('category-update', kwargs={'pk': self.object.pk})
-    success_message = "Category created successfully."
+        return self.request.path  # Stay on the same create form
+    success_message = "Category saved successfully. You can create another one."
 
 
 # Task Views
@@ -206,17 +202,16 @@ class TaskDeleteView(DeleteView):
 
 class TaskUpdateView(SuccessMessageMixin, UpdateView):
     model = Task
-    fields = ["title", "description", "deadline", "status", "priority", "category"]
+    form_class = TaskForm
     template_name = "task_form.html"
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('task-update', kwargs={'pk': self.object.pk})
-    success_message = "Task updated successfully."
+        return self.request.path  # Stay on the same page
+    success_message = "Task saved successfully."
 
 
 class TaskCreateView(SuccessMessageMixin, CreateView):
     model = Task
-    fields = ["title", "description", "deadline", "status", "priority", "category"]
+    form_class = TaskForm
     template_name = "task_form.html"
     
     def form_valid(self, form):
@@ -230,9 +225,8 @@ class TaskCreateView(SuccessMessageMixin, CreateView):
         return form
 
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('task-update', kwargs={'pk': self.object.pk})
-    success_message = "Task created successfully."
+        return self.request.path  # Stay on the same create form
+    success_message = "Task saved successfully. You can create another one."
 
 
 # Note Views
@@ -279,9 +273,8 @@ class NoteUpdateView(SuccessMessageMixin, UpdateView):
     fields = ["task", "content"]
     template_name = "note_form.html"
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('note-update', kwargs={'pk': self.object.pk})
-    success_message = "Note updated successfully."
+        return self.request.path  # Stay on the same page
+    success_message = "Note saved successfully."
 
 
 class NoteCreateView(SuccessMessageMixin, CreateView):
@@ -295,9 +288,8 @@ class NoteCreateView(SuccessMessageMixin, CreateView):
         return form
 
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('note-update', kwargs={'pk': self.object.pk})
-    success_message = "Note created successfully."
+        return self.request.path  # Stay on the same create form
+    success_message = "Note saved successfully. You can create another one."
 
 
 # SubTask Views
@@ -349,9 +341,8 @@ class SubTaskUpdateView(SuccessMessageMixin, UpdateView):
     fields = ["parent_task", "title", "status"]
     template_name = "subtask_form.html"
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('subtask-update', kwargs={'pk': self.object.pk})
-    success_message = "SubTask updated successfully."
+        return self.request.path  # Stay on the same page
+    success_message = "SubTask saved successfully."
 
 
 class SubTaskCreateView(SuccessMessageMixin, CreateView):
@@ -365,6 +356,5 @@ class SubTaskCreateView(SuccessMessageMixin, CreateView):
         return form
 
     def get_success_url(self):
-        from django.urls import reverse
-        return reverse('subtask-update', kwargs={'pk': self.object.pk})
-    success_message = "SubTask created successfully."
+        return self.request.path  # Stay on the same create form
+    success_message = "SubTask saved successfully. You can create another one."
