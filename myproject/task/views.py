@@ -154,10 +154,17 @@ class CategoryCreateView(SuccessMessageMixin, CreateView):
 
 
 # Task Views
+from datetime import date
+
 class TaskListView(ListView):
     model = Task
     template_name = "task_list.html"
     context_object_name = "tasks"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['today'] = date.today()
+        return context
 
     def get_queryset(self):
         qs = super().get_queryset().filter(user=self.request.user)
