@@ -30,28 +30,32 @@
           <button class="btn btn-primary btn-sm" type="submit"><i class="fas fa-search"></i></button>
         </div>
       </form>
-      <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user fa-fw"></i> {{ user.username }}
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{% url 'account_email' %}"><i class="fas fa-envelope fa-fw me-2"></i>Email Settings</a></li>
-            <li><a class="dropdown-item" href="{% url 'socialaccount_connections' %}"><i class="fas fa-link fa-fw me-2"></i>Social Accounts</a></li>
-            <li><a class="dropdown-item" href="{% url 'account_set_password' %}"><i class="fas fa-key fa-fw me-2"></i>Set Password</a></li>
-            <li><a class="dropdown-item" href="{% url 'account_change_password' %}"><i class="fas fa-lock fa-fw me-2"></i>Change Password</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <form method="post" action="{% url 'account_logout' %}" class="m-0">
-                {% csrf_token %}
-                <button type="submit" class="dropdown-item w-100 text-start">
-                  <i class="fas fa-sign-out-alt fa-fw me-2"></i>Sign Out
-                </button>
-              </form>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <div class="nav-profile-wrapper position-relative ms-auto ms-md-0 me-3 me-lg-4">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-user fa-fw"></i> {{ user.username }}
+            </a>
+            <div class="dropdown-menu-container">
+              <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'account_email' %}"><i class="fas fa-envelope fa-fw me-2"></i>Email Settings</a></li>
+                <li><a class="dropdown-item" href="{% url 'socialaccount_connections' %}"><i class="fas fa-link fa-fw me-2"></i>Social Accounts</a></li>
+                <li><a class="dropdown-item" href="{% url 'account_set_password' %}"><i class="fas fa-key fa-fw me-2"></i>Set Password</a></li>
+                <li><a class="dropdown-item" href="{% url 'account_change_password' %}"><i class="fas fa-lock fa-fw me-2"></i>Change Password</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <form method="post" action="{% url 'account_logout' %}" class="m-0">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item w-100 text-start">
+                      <i class="fas fa-sign-out-alt fa-fw me-2"></i>Sign Out
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
       {% else %}
       <div class="ms-auto d-flex align-items-center auth-buttons">
         <a href="{% url 'account_login' %}" class="btn btn-outline-light btn-sm me-2">Login</a>

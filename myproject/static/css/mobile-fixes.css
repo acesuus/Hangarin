@@ -4,6 +4,15 @@
     z-index: 1060 !important;
 }
 
+.nav-profile-wrapper {
+    position: static !important;
+    z-index: 1061 !important;
+}
+
+.dropdown-menu-container {
+    position: static !important;
+}
+
 .dropdown-menu {
     position: absolute !important;
     transform: none !important;
@@ -18,12 +27,18 @@
         z-index: 1;
     }
 
-    .sb-topnav .navbar-nav {
+    .nav-profile-wrapper {
         position: static !important;
     }
 
-    .sb-topnav .nav-item.dropdown {
+    .nav-profile-wrapper .navbar-nav {
         position: static !important;
+        width: 100%;
+    }
+
+    .nav-profile-wrapper .nav-item.dropdown {
+        position: static !important;
+        width: 100%;
     }
 
     .sb-topnav .dropdown-menu {
