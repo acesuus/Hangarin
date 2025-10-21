@@ -104,13 +104,16 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Additional Social Auth Settings
-SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
-SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_ADAPTER = 'task.adapters.CustomSocialAccountAdapter'
+SOCIALACCOUNT_AUTO_SIGNUP = False  # Prevent automatic signup
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_STORE_TOKENS = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_FORMS = {
+    'signup': 'allauth.socialaccount.forms.SignupForm'
+}
 
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
@@ -123,13 +126,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = None
 
 # Social Account Settings
-SOCIALACCOUNT_AUTO_SIGNUP = False  # Changed to False to prevent automatic signup
-SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_STORE_TOKENS = True
-SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
-SOCIALACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_QUERY_EMAIL = True
+# Remove duplicate settings as they are defined above
 
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/tasks/'  # Changed to tasks page after login
