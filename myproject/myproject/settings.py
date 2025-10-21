@@ -97,6 +97,9 @@ SOCIALACCOUNT_PROVIDERS = {
             'user',
             'email',
         ],
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': True,
+        'VERSION': '3'
     }
 }
 
@@ -120,17 +123,16 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = None
 
 # Social Account Settings
-SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_AUTO_SIGNUP = False  # Changed to False to prevent automatic signup
 SOCIALACCOUNT_LOGIN_ON_GET = True
 SOCIALACCOUNT_STORE_TOKENS = True
 SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
-SOCIALACCOUNT_EMAIL_VERIFICATION = False
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True
-SOCIALACCOUNT_PROVIDERS_CALLBACK_URL = 'accounts/google/login/callback/'
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/tasks/'  # Changed to tasks page after login
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_LOGOUT_ON_GET = False

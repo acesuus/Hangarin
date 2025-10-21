@@ -2,8 +2,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+
+def redirect_to_login(request):
+    return redirect('account_login')
+
 urlpatterns = [
     # Core
+    path('', redirect_to_login, name='root'),  # Redirect root to login
     path('admin/', admin.site.urls),
     path('', include('task.urls')),        # main app (homepage + models)
     path('', include('pwa.urls')),         # PWA assets (manifest, service worker)
