@@ -42,7 +42,7 @@ class PriorityListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().filter(user=self.request.user)
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(
@@ -50,7 +50,6 @@ class PriorityListView(ListView):
                 Q(level__icontains=query)
             )
         
-
         ordering = self.request.GET.get('order_by', 'level')
         if ordering == 'name':
             qs = qs.order_by('name')
@@ -89,6 +88,10 @@ class PriorityCreateView(SuccessMessageMixin, CreateView):
     fields = ["name", "level"]
     template_name = "priority_form.html"
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
     def get_success_url(self):
         from django.urls import reverse
         return reverse('priority-update', kwargs={'pk': self.object.pk})
@@ -103,7 +106,7 @@ class CategoryListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().filter(user=self.request.user)
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(
@@ -143,6 +146,11 @@ class CategoryCreateView(SuccessMessageMixin, CreateView):
     model = Category
     fields = ["name"]
     template_name = "category_form.html"
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
     def get_success_url(self):
         from django.urls import reverse
         return reverse('category-update', kwargs={'pk': self.object.pk})
@@ -156,7 +164,7 @@ class TaskListView(ListView):
     context_object_name = "tasks"
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().filter(user=self.request.user)
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(
@@ -210,6 +218,17 @@ class TaskCreateView(SuccessMessageMixin, CreateView):
     model = Task
     fields = ["title", "description", "deadline", "status", "priority", "category"]
     template_name = "task_form.html"
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['priority'].queryset = Priority.objects.filter(user=self.request.user)
+        form.fields['category'].queryset = Category.objects.filter(user=self.request.user)
+        return form
+
     def get_success_url(self):
         from django.urls import reverse
         return reverse('task-update', kwargs={'pk': self.object.pk})
@@ -224,7 +243,7 @@ class NoteListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().filter(task__user=self.request.user)
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(
@@ -269,6 +288,12 @@ class NoteCreateView(SuccessMessageMixin, CreateView):
     model = Note
     fields = ["task", "content"]
     template_name = "note_form.html"
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['task'].queryset = Task.objects.filter(user=self.request.user)
+        return form
+
     def get_success_url(self):
         from django.urls import reverse
         return reverse('note-update', kwargs={'pk': self.object.pk})
@@ -283,7 +308,7 @@ class SubTaskListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().filter(parent_task__user=self.request.user)
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(
@@ -333,6 +358,12 @@ class SubTaskCreateView(SuccessMessageMixin, CreateView):
     model = SubTask
     fields = ["parent_task", "title", "status"]
     template_name = "subtask_form.html"
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['parent_task'].queryset = Task.objects.filter(user=self.request.user)
+        return form
+
     def get_success_url(self):
         from django.urls import reverse
         return reverse('subtask-update', kwargs={'pk': self.object.pk})
