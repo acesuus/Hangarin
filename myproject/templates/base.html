@@ -38,16 +38,15 @@
             </a>
             <div class="dropdown-menu-container">
               <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'account_email' %}"><i class="fas fa-envelope fa-fw me-2"></i>Email Settings</a></li>
-                <li><a class="dropdown-item" href="{% url 'socialaccount_connections' %}"><i class="fas fa-link fa-fw me-2"></i>Social Accounts</a></li>
-                <li><a class="dropdown-item" href="{% url 'account_set_password' %}"><i class="fas fa-key fa-fw me-2"></i>Set Password</a></li>
-                <li><a class="dropdown-item" href="{% url 'account_change_password' %}"><i class="fas fa-lock fa-fw me-2"></i>Change Password</a></li>
-                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="{% url 'account_email' %}"><i class="fas fa-envelope"></i><span>Email</span></a></li>
+                <li><a class="dropdown-item" href="{% url 'socialaccount_connections' %}"><i class="fas fa-link"></i><span>Social</span></a></li>
+                <li><a class="dropdown-item" href="{% url 'account_set_password' %}"><i class="fas fa-key"></i><span>Password</span></a></li>
+                <li><a class="dropdown-item" href="{% url 'account_change_password' %}"><i class="fas fa-lock"></i><span>Change</span></a></li>
                 <li>
                   <form method="post" action="{% url 'account_logout' %}" class="m-0">
                     {% csrf_token %}
-                    <button type="submit" class="dropdown-item w-100 text-start">
-                      <i class="fas fa-sign-out-alt fa-fw me-2"></i>Sign Out
+                    <button type="submit" class="dropdown-item">
+                      <i class="fas fa-sign-out-alt"></i><span>Logout</span>
                     </button>
                   </form>
                 </li>
